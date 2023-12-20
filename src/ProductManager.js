@@ -8,7 +8,7 @@ class ProductManager {
 
     constructor() {
         // Ruta al archivo JSON que contiene los datos de los productos.
-        this.filePath = './productos.json';
+        this.filePath = './src/productos.json';
     }
 
     // Método asincrónico para obtener una lista de productos.

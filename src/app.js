@@ -1,5 +1,5 @@
+const ProductManager = require('./productManager');
 const express = require('express');
-const ProductManager = require('./ProductManager.js'); 
 
 // Crear la instancia de Express
 const app = express();
@@ -9,24 +9,27 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Instancia de ProductManager
-const productManager = new ProductManager('productos.json');
+const manager = new ProductManager("./src/productos.json");
 
 // Endpoint para obtener productos
 // Ruta: '/productos'
 app.get('/productos', async (req, res) => {
     try {
-        let limit = req.query.limit;
-        if (limit) {
-            limit = parseInt(limit);
-            if (isNaN(limit)) {
-                return res.status(400).send('El límite debe ser un número válido');
-            }
-        }
         
-        const products = await productManager.getProducts(limit);
-        res.json(products);
+        const arrayProductos = await manager.leerArchivo();
+        let limite = parseInt(req.query.limit);
+
+        if (limit) {
+            
+            const arrayConLimite = arrayProductos.slice(0, limite);
+            return res.json(arrayConLimite);
+
+        } else {
+            return res.json(arrayProductos);
+        }
     } catch (error) {
-        res.status(500).send('Analia. Le pifiaste en algo. Hay un error al obtener los productos: ' + error.message);
+        console.log (error)
+        return res.send ("Error al obtener los productos / Error al procesar la solicitud")
     }
 });
 
