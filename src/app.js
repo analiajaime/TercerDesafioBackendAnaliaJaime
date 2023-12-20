@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
-const ProductManager = require('./ProductManager.js'); 
+const ProductManager = require('./ProductManager'); 
 
 // Instancia de ProductManager
-const productManager = new ProductManager("productos.json");
+const manager = new ProductManager("./src/productos.json");
 
 // Endpoint para obtener productos
 // Ruta: '/productos'
