@@ -1,10 +1,10 @@
 // app.js
 const express = require('express');
 const app = express();
-const ProductManager = require('./ProductManager'); // Asegúrate de que la ruta sea correcta
+const ProductManager = require('./ProductManager.js'); 
 
 // Instancia de ProductManager
-const productManager = new ProductManager();
+const productManager = new ProductManager("./productos.json");
 
 // Endpoint para obtener productos
 // Ruta: '/products'
@@ -12,7 +12,7 @@ const productManager = new ProductManager();
 app.get('/products', async (req, res) => {
     try {
         const limit = req.query.limit;
-        const products = await productManager.getProducts(limit); // Implementa esta función en ProductManager
+        const products = await productManager.getProducts(limit);
         res.json(products);
     } catch (error) {
         res.status(500).send('Error al obtener los productos: ' + error.message);
@@ -24,7 +24,7 @@ app.get('/products', async (req, res) => {
 app.get('/products/:pid', async (req, res) => {
     try {
         const pid = req.params.pid;
-        const product = await productManager.getProductById(pid); // Implementa esta función en ProductManager
+        const product = await productManager.getProductById(pid); 
         if (product) {
             res.json(product);
         } else {
