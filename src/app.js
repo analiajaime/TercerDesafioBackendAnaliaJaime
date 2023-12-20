@@ -1,13 +1,18 @@
 const express = require('express');
+const ProductManager = require('./ProductManager.js'); 
+
+// Crear la instancia de Express
 const app = express();
-const ProductManager = require('./ProductManager'); 
+
+
+// Iniciar el servidor
+const PORT = process.env.PORT || 8080;
 
 // Instancia de ProductManager
-const manager = new ProductManager("./src/productos.json");
+const productManager = new ProductManager('productos.json');
 
 // Endpoint para obtener productos
 // Ruta: '/productos'
-// Opcionalmente acepta un query param 'limit' para limitar el número de productos devueltos
 app.get('/productos', async (req, res) => {
     try {
         let limit = req.query.limit;
@@ -41,8 +46,6 @@ app.get('/productos/:pid', async (req, res) => {
     }
 });
 
-// Iniciar el servidor
-const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
+    console.log(`Ya tenes el servidor corriendo en el puerto ${PORT}`);
 });
