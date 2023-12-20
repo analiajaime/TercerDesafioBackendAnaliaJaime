@@ -1,27 +1,33 @@
-// app.js
 const express = require('express');
 const app = express();
 const ProductManager = require('./ProductManager.js'); 
 
 // Instancia de ProductManager
-const productManager = new ProductManager("./productos.json");
+const productManager = new ProductManager("productos.json");
 
 // Endpoint para obtener productos
-// Ruta: '/products'
+// Ruta: '/productos'
 // Opcionalmente acepta un query param 'limit' para limitar el número de productos devueltos
-app.get('/products', async (req, res) => {
+app.get('/productos', async (req, res) => {
     try {
-        const limit = req.query.limit;
+        let limit = req.query.limit;
+        if (limit) {
+            limit = parseInt(limit);
+            if (isNaN(limit)) {
+                return res.status(400).send('El límite debe ser un número válido');
+            }
+        }
+        
         const products = await productManager.getProducts(limit);
         res.json(products);
     } catch (error) {
-        res.status(500).send('Error al obtener los productos: ' + error.message);
+        res.status(500).send('Analia. Le pifiaste en algo. Hay un error al obtener los productos: ' + error.message);
     }
 });
 
 // Endpoint para obtener un producto específico por su ID
-// Ruta: '/products/:pid'
-app.get('/products/:pid', async (req, res) => {
+// Ruta: '/productos/:pid'
+app.get('/productos/:pid', async (req, res) => {
     try {
         const pid = req.params.pid;
         const product = await productManager.getProductById(pid); 
